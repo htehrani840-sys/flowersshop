@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>رزلند | گل‌فروشی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<div class="hero">
+  <div class="slide on"></div><div class="slide"></div><div class="slide"></div>
+  <form class="hero-card" onsubmit="event.preventDefault()">
+    <label for="occ">مناسبت چیه؟</label>
+    <input id="occ" placeholder="مثلا : تولد">
+    <label for="who">مخاطبت کیه؟</label>
+    <input id="who" placeholder="مثلا : همسر">
+    <label for="sty">سبک موردعلاقت چیه؟</label>
+    <input id="sty" placeholder="مثلا : رسمی">
+    <button type="submit"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></svg>جستجو</button>
+  </form>
+  <button class="arrow prev" aria-label="قبلی">‹</button>
+  <button class="arrow next" aria-label="بعدی">›</button>
+  <div class="dots"><button class="on" aria-label="اسلاید ۱"></button><button aria-label="اسلاید ۲"></button><button aria-label="اسلاید ۳"></button></div>
+</div>
+
+<section class="occ" id="occ-section">
+  <div class="occ-title"><span class="tag">مناسبت ها</span></div>
+  <div class="occ-grid" id="occGrid"></div>
+</section>
+
+<section>
+  <div class="occ-title"><span class="tag">جدیدترین ها</span></div>
+  <div class="pcar" id="pcar">
+    <button class="pnav" id="pprev" aria-label="قبلی">‹</button>
+    <div class="pview"><div class="ptrack" id="ptrack"></div></div>
+    <button class="pnav" id="pnext" aria-label="بعدی">›</button>
+  </div>
+  <div class="pdots" id="pdots"></div>
+</section>
+
+<section id="cat-section">
+  <div class="occ-title"><span class="tag">دسته بندی ها</span></div>
+  <div class="cat-grid" id="catGrid"></div>
+</section>
+
+<div class="banner">
+  <img src="images/عشق.jpg" alt="عشق را با گل بیان کن">
+  <a class="love-btn love-btn1" href="categories.html?cat=bouquet">خرید دسته گل</a>
+  <a class="love-btn love-btn2" href="#best-section">مشاهده پرفروش ترین ها</a>
+</div>
+
+<section id="best-section">
+  <div class="occ-title"><span class="tag">پرفروش ترین ها</span></div>
+  <div class="pcar" id="bcar">
+    <button class="pnav" id="bprev" aria-label="قبلی">‹</button>
+    <div class="pview"><div class="ptrack" id="btrack"></div></div>
+    <button class="pnav" id="bnext" aria-label="بعدی">›</button>
+  </div>
+  <div class="pdots" id="bdots"></div>
+</section>
+
+<div class="banner">
+  <img src="images/rosejavdan.jpg" alt="زیبایی ماندگار عشق">
+  <a class="rose-btn" href="#">مشاهده انواع رزجاودان
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9.5" cy="9.5" r="6.5"/><path d="m14.5 14.5 7 7"/></svg>
+  </a>
+</div>
+
+<section class="features">
+  <a class="feat" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 22H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3m0 11V11m0 11h10.3a2 2 0 0 0 2-1.6l1.4-7A2 2 0 0 0 18.7 11H14V6a3 3 0 0 0-3-3l-4 8"/></svg><span>شرایط فیزیکی کامل</span></a>
+  <a class="feat" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18M7 14h3"/></svg><span>پرداخت درب منزل</span></a>
+  <a class="feat" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.4 2.2 3.2-.3 1 3.1 2.7 1.8-1 3.1 1 3.1-2.7 1.8-1 3.1-3.2-.3L12 22l-2.4-2.2-3.2.3-1-3.1-2.7-1.8 1-3.1-1-3.1 2.7-1.8 1-3.1 3.2.3z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span>تضمین کیفیت</span></a>
+  <a class="feat" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 18h6M6 15l3-6h5l2 6M13 9V6h3M4 6h4"/></svg><span>ارسال سریع</span></a>
+</section>
+
+<section class="about">
+  <div class="about-arch">
+    <img class="about-logo-img" src="images/logo.png" alt="Roseland">
+    <p>با افتخار! به گل‌فروشی رزلند خوش آمدید، جایی که هنر گل‌فروشی با طراحی و رنگ‌های خاص خود خلق شده است. در اینجا شاهد طیف فوق‌العاده‌ای از گل‌هایی با دیزاین خاص و ارزشمند هستید. هر برگ و گل اینجا با عشق و حوصله انتخاب و چیده می‌شود تا هدیه‌ی شما ماندگار باشد.</p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="layout.js"></script>
+<script>
+/* ====== تنظیم عکس‌ها (BASE در layout.js است) ====== */
+const HERO = ["اسلاید 2 جدید.jpg", "اسلاید1.png", "اسلاید2.webp"];
+
+const OCCASIONS = [
+  {id:"wedding",     img:"دسته گل عروس.jpg",    name:"عروسی"},
+  {id:"valentine",   img:"۲۰۲۶۰۲۲۵_۱۲۵۲۳۰.jpg", name:"ولنتاین"},
+  {id:"anniversary", img:"دسته گل عروس.jpg",    name:"سالگرد ازدواج"},
+  {id:"birthday",    img:"تولد.jpg",            name:"تولد"},
+  {id:"worship",     img:"عیادت.jpg",           name:"عیادت"},
+  {id:"mothersday",  img:"روز مادر.jpg",        name:"روز مادر"}
+];
+const CATEGORIES = [
+  {id:"bouquet" , img:"جام گل.jpg", name:"دسته گل"},
+  {id:"box", img:"باکس گل.jpg",     name:"باکس گل"},
+  {id:"wreath", img:"تاج گل.jpg",  name:"تاج گل"},
+  {id:"basket", img:"سبد گل.jpg",  name:"سبد گل"},
+  {id:"vase", img:"جام گل.jpg",    name:"جام گل"},
+  {id:"plant", img:"گل آپارتمانی.jpg",   name:"گل آپارتمانی"}
+];
+const NEWEST = [
+  {img:"MDAY26_Honey_OH_1144_RT_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"EVG24_ALWAYS_OH_0493_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"EVG24_AQUAMARINE_OH_0500_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"MOM24_Apricot_DL_OH_0518_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"MOM25_Flirtatious_OH_6729_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"SUM24_MakeASplash_DL_OH_1110_Web.avif", name:"دسته گل لاریسا", price:1850000},
+  {img:"SUM25_Buttercream_OH_641_Web (1).avif", name:"دسته گل لاریسا", price:1850000}
+];
+const BESTSELLERS = [
+  {img:"SUM25_Buttercream_OH_641_Web.avif", name:"دسته گل آناهیتا", price:1500000},
+  {img:"VAL23_CandyCrush_DL_Over_115_641x641.avif", name:"نام محصول", price:1500000},
+  {img:"VAL24_StrawberrySunset_DL_OH_0486_Web.avif", name:"نام محصول", price:1500000},
+  {img:"VAL26_Bejeweled_OH_1479_RT_Web.avif", name:"نام محصول", price:1500000},
+  {img:"VAL26_Honeymoon_OH_1499_RT_Web.avif", name:"نام محصول", price:1500000},
+  {img:"EVG24_EXUBERANCE_OH_0547_Web.avif", name:"نام محصول", price:1500000},
+  {img:"EVG24_PURPLE REIGN_OH_0523_Web.avif", name:"نام محصول", price:1500000}
+];
+
+/* اسلایدر بالا */
+const slides=[...document.querySelectorAll(".slide")];
+const dots=[...document.querySelectorAll(".dots button")];
+slides.forEach((s,i)=>s.style.backgroundImage=`url("${BASE+HERO[i]}")`);
+let cur=0,timer;
+function go(n){cur=(n+slides.length)%slides.length;
+  slides.forEach((s,i)=>s.classList.toggle("on",i===cur));
+  dots.forEach((d,i)=>d.classList.toggle("on",i===cur));}
+function auto(){clearInterval(timer);timer=setInterval(()=>go(cur+1),5000)}
+document.querySelector(".next").onclick=()=>{go(cur+1);auto()};
+document.querySelector(".prev").onclick=()=>{go(cur-1);auto()};
+dots.forEach((d,i)=>d.onclick=()=>{go(i);auto()});
+auto();
+
+/* مناسبت‌ها و دسته‌بندی‌ها */
+document.getElementById("occGrid").innerHTML=OCCASIONS.map(o=>
+ `<a class="occ-item" href="monasebatha.html?occ=${o.id}"><div class="pic" style="background-image:url('${BASE+o.img}')"></div><span>${o.name}</span></a>`).join("");
+document.getElementById("catGrid").innerHTML=CATEGORIES.map(c=>
+ `<a class="cat-item" href="categories.html?cat=${c.id}"><div class="cpic" style="background-image:url('${BASE+c.img}')"></div><h3>${c.name}</h3></a>`).join("");
+
+/* اسلایدر محصولات */
+function makeSlider(prefix, products){
+  const car=document.getElementById(prefix+"car"), track=document.getElementById(prefix+"track");
+  const prev=document.getElementById(prefix+"prev"), next=document.getElementById(prefix+"next");
+  const dotsBox=document.getElementById(prefix+"dots");
+  track.innerHTML=products.map((p,idx)=>
+    `<div class="pitem"><a class="pimg" href="product.html?${new URLSearchParams({name:p.name, price:p.price, img:p.img})}" style="display:block;background-image:url('${BASE+p.img}')" aria-label="${p.name}"></a>
+    <h3>${p.name}</h3><span class="price">${p.price.toLocaleString("fa-IR")} تومان</span>
+    <button type="button" class="padd" data-i="${idx}">افزودن به سبد خرید</button></div>`).join("");
+    track.addEventListener("click", e=>{
+  const b = e.target.closest(".padd"); if(!b) return;
+  const p = products[+b.dataset.i];
+  addToCart({id: p.id || p.img, name: p.name, price: p.price, img: p.img, qty: 1});
+  b.textContent = "اضافه شد ✓"; b.classList.add("done");
+  setTimeout(()=>{ b.textContent = "افزودن به سبد خرید"; b.classList.remove("done"); }, 1500);
+});
+  let i=0;
+  const vis=()=>parseInt(getComputedStyle(car).getPropertyValue("--vis"))||4;
+  function update(){
+    const max=Math.max(0,products.length-vis());
+    i=Math.min(Math.max(i,0),max);
+    track.style.transform=`translateX(${i*100/vis()}%)`;
+    prev.disabled=i===0; next.disabled=i===max;
+    dotsBox.innerHTML=Array.from({length:max+1},(_,k)=>`<button class="${k===i?"on":""}" aria-label="موقعیت ${k+1}"></button>`).join("");
+    [...dotsBox.children].forEach((d,k)=>d.onclick=()=>{i=k;update()});
+  }
+  prev.onclick=()=>{i--;update()}; next.onclick=()=>{i++;update()};
+  window.addEventListener("resize",update); update();
+}
+makeSlider("p", NEWEST);
+makeSlider("b", BESTSELLERS);
+</script>
+</body>
+</html>

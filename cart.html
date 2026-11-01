@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سبد خرید | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="cart">
+  <div class="cart-in">
+    <h1>سبد خرید شما</h1>
+
+    <div id="cartEmpty" class="cempty" hidden>
+      <p>سبد خرید شما خالی است.</p>
+      <a class="pbtn" href="monasebatha.html">ادامه خرید</a>    </div>
+
+    <div id="cartFull" hidden>
+      <div id="cartList"></div>
+
+      <h2 class="cgift-t">می خواهید کارت هدیه اضافه کنید ؟</h2>
+      <div class="cgifts" id="cgifts" role="radiogroup" aria-label="کارت هدیه"></div>
+
+<div class="gmsg">
+  <input type="text" id="giftMsg" placeholder="متن موردنظر خود را وارد کنید" maxlength="200" aria-label="متن کارت هدیه">
+  <button type="button" id="giftSave">ثبت</button>
+</div>
+<p class="pmsg gnote" id="gNote" role="status"></p>
+
+<div class="ctotal">
+  <div class="ctotal-head">جمع کل سبد خرید</div>
+  <div class="ctotal-body">
+    <p class="trow"><span>قیمت کل:</span> <b id="sItems"></b></p>
+    <div class="ship" role="radiogroup" aria-label="حمل و نقل">
+      <span class="ship-t">حمل و نقل:</span>
+      <div class="ship-opts" id="shipOpts"></div>
+    </div>
+    <p class="trow"><span>مالیات بر ارزش افزوده:</span> <b id="sTax"></b></p>
+    <p class="trow trow-final"><span>مبلغ قابل پرداخت:</span> <b id="sTotal"></b></p>
+    <div class="tbtns">
+      <button type="button" class="tpay" id="checkout">پرداخت</button>
+      <a class="tsim" href="monasebatha.html">دیدن محصولات مشابه</a>
+    </div>
+    <p class="pmsg" id="cMsg" role="status"></p>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+/* کارت‌های هدیه: اسم عکس، نام و قیمت (بدون ویرگول) */
+/* کارت‌های هدیه: اسم عکس، نام و قیمت (بدون ویرگول) */
+const GIFTS = [
+  {img:"cart1.png", name:"کارت ساده",  price:20000},
+  {img:"cart2.png", name:"کارت برگ",   price:20000},
+  {img:"cart3.png", name:"کارت تیره",  price:25000},
+  {img:"caer4.png", name:"کارت تشکر",  price:25000},
+  {img:"cart5.png", name:"کارت قلب",   price:30000}
+];
+/* روش‌های حمل و نقل (قیمت‌ها نمونه است؛ با قیمت واقعی عوض کنید) */
+const SHIPPING = [
+  {name:"پست پیشتاز",  price:90000},
+  {name:"اسنپ باکس",   price:120000},
+  {name:"تحویل حضوری", price:0}
+];
+const VAT = 0.10;   /* نرخ مالیات */
+
+const money = n => n.toLocaleString("fa-IR") + " تومان";
+const $ = s => document.getElementById(s);
+let gift = -1, ship = -1;
+
+$("cgifts").innerHTML = GIFTS.map((g,i)=>
+ `<button type="button" role="radio" aria-checked="false" class="cg" data-i="${i}">
+    <span class="cgimg" style="background-image:url('${BASE+g.img}')"></span>
+    <small>${g.name}</small><small>${money(g.price)}</small></button>`).join("");
+
+$("shipOpts").innerHTML = SHIPPING.map((s,i)=>
+ `<label class="sopt"><span>${s.name} <small>${s.price ? "(" + money(s.price) + ")" : "(رایگان)"}</small></span>
+    <input type="radio" name="ship" value="${i}"></label>`).join("");
+
+function render(){
+  const c = getCart();
+  $("cartEmpty").hidden = c.length > 0;
+  $("cartFull").hidden  = c.length === 0;
+  if(!c.length) return;
+
+  $("cartList").innerHTML = c.map((x,i)=>
+   `<div class="citem" data-i="${i}">
+      <div class="cimg" style="background-image:url('${BASE+x.img}')" role="img" aria-label="${x.name}"></div>
+      <div class="cname">${x.name}${x.color?`<small>رنگ: ${x.color}</small>`:""}</div>
+      <div class="qty"><button type="button" data-a="minus" aria-label="کم">-</button><span>${x.qty.toLocaleString("fa-IR")}</span><button type="button" data-a="plus" aria-label="زیاد">+</button></div>
+      <div class="cprice">${money(x.price * x.qty)}</div>
+      <button type="button" class="ctrash" data-a="del" aria-label="حذف">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg></button>
+    </div>`).join("");
+
+  const items = c.reduce((s,x)=>s+x.price*x.qty,0);
+  const base  = items + (gift >= 0 ? GIFTS[gift].price : 0);
+  const tax   = Math.round(base * VAT);
+  const send  = ship >= 0 ? SHIPPING[ship].price : 0;
+  $("sItems").textContent = money(base);
+  $("sTax").textContent   = "+" + money(tax);
+  $("sTotal").textContent = money(base + tax + send);
+}
+
+$("cartList").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-a]"); if(!b) return;
+  const i = +b.closest(".citem").dataset.i;
+  const c = getCart();
+  if(b.dataset.a === "plus")  c[i].qty = Math.min(20, c[i].qty + 1);
+  if(b.dataset.a === "minus") c[i].qty = Math.max(1, c[i].qty - 1);
+  if(b.dataset.a === "del")   c.splice(i,1);
+  saveCart(c); render();
+});
+
+$("cgifts").addEventListener("click", e=>{
+  const b = e.target.closest(".cg"); if(!b) return;
+  const i = +b.dataset.i;
+  gift = (gift === i) ? -1 : i;
+  [...$("cgifts").children].forEach((x,k)=>{ x.classList.toggle("on", k===gift); x.setAttribute("aria-checked", k===gift); });
+  render();
+});
+
+$("giftSave").onclick = () => {
+  $("gNote").textContent = gift < 0 ? "ابتدا یک کارت هدیه انتخاب کنید."
+    : ($("giftMsg").value.trim() ? "متن کارت ثبت شد." : "متن کارت را وارد کنید.");
+};
+
+$("shipOpts").addEventListener("change", e=>{ ship = +e.target.value; render(); });
+
+$("checkout").onclick = () => {
+  if(ship < 0){ $("cMsg").textContent = "لطفاً روش حمل و نقل را انتخاب کنید."; return; }
+  try{
+    localStorage.setItem("roseland_order", JSON.stringify({
+      gift: gift >= 0 ? GIFTS[gift] : null,
+      giftMsg: $("giftMsg").value.trim(),
+      ship: SHIPPING[ship],
+      vat: VAT
+    }));
+  }catch(e){}
+  location.href = "checkout.html";
+};
+render();
+</script>
+</body>
+</html>

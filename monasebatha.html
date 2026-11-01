@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>محصولات | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="plist">
+  <div class="pgrid" id="pgrid"></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+/* اسم عکس، نام و قیمت (بدون ویرگول) هر محصول را اینجا بنویسید */
+const PRODUCTS = [
+  {img:"MDAY26_Honey_OH_1144_RT_Web.avif",  name:"دسته گل لاریسا",    price:1850000},
+  {img:"MDAY26_Whimsy_OH_1129_RT_Web (1).avif",  name:"دسته گل آلسترومریا", price:1450000},
+  {img:"MOM24_Apricot_DL_OH_0518_Web.avif",  name:"دسته گل گیلدا",     price:1450000},
+  {img:"MOM25_Flirtatious_OH_6729_Web.avif",  name:"دسته گل لاریسا",         price:2478990},
+  {img:"SUM24_MakeASplash_DL_OH_1110_Web.avif",  name:"دسته گل آلسترومریا",         price:2490000},
+  {img:"SUM25_Buttercream_OH_641_Web (1).avif",  name:"دسته گل گیلدا",         price:1240000},
+  {img:"VAL23_CandyCrush_DL_Over_115_641x641.avif",  name:"دسته گل لاریسا",         price:2490000},
+  {img:"VAL24_StrawberrySunset_DL_OH_0486_Web.avif",  name:"دسته گل آلسترومریا",         price:2580000},
+  {img:"VAL26_Bejeweled_OH_1479_RT_Web.avif",  name:"دسته گل گیلدا",         price:1240000},
+  {img:"VAL26_Honeymoon_OH_1499_RT_Web.avif", name:"دسته گل لاریسا",         price:380000},
+  {img:"EVG24_ALWAYS_OH_0493_Web.avif", name:"دسته گل آلسترومریا",         price:460000},
+  {img:"FALL25_PDP_WatermelonCandy_OH_516_Web.avif", name:"دسته گل گیلدا",         price:4500000},
+  {img:"EVG24_EXUBERANCE_OH_0547_Web.avif", name:"دسته گل لاریسا",         price:2590000},
+  {img:"EVG24_PURPLE REIGN_OH_0523_Web.avif", name:"دسته گل آلسترومریا",         price:169000},
+  {img:"EVG24_SWEET LAVENDER_OH_0591_Web.avif", name:"دسته گل گیلدا",         price:390000}
+];
+/* محصولات هر مناسبت: اگر لیستی خالی بماند، همان PRODUCTS نشان داده می‌شود */
+const OCCS = {
+  wedding:     {title:"عروسی",         items:[ /* {img:"...", name:"...", price:1850000}, */ ]},
+  valentine:   {title:"ولنتاین",       items:[]},
+  anniversary: {title:"سالگرد ازدواج", items:[]},
+  birthday:    {title:"تولد",          items:[]},
+  worship:     {title:"عیادت",         items:[]},
+  mothersday:  {title:"روز مادر",      items:[]}
+};
+
+const okey = new URLSearchParams(location.search).get("occ");
+const occ  = OCCS[okey];
+const list = (occ && occ.items.length) ? occ.items : PRODUCTS;
+if(occ) document.title = occ.title + " | رزلند";
+
+document.getElementById("pgrid").innerHTML = list.map((p,i)=>
+ `<div class="pcard">
+    <a href="product.html?id=${i}" class="pcard-img" style="background-image:url('${BASE+p.img}')" aria-label="${p.name}"></a>
+    <h3>${p.name}</h3>
+    <span class="price">${p.price.toLocaleString("fa-IR")} تومان</span>
+    <button type="button">افزودن به سبد خرید</button>
+  </div>`).join("");
+
+
+
+</script>
+</body>
+</html>

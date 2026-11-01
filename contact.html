@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تماس با ما | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="chero">
+  <div class="chero-img" id="cheroImg" role="img" aria-label="گل‌آرایی"></div>
+  <div class="chero-panel">
+    <h1>آیا نیاز به کمک دارید ؟</h1>
+    <p>ما همیشه آماده‌ایم تا در انتخاب زیباترین گل‌ها همراه شما باشیم.</p>
+  </div>
+</div>
+
+<section class="cinfo-sec">
+<div class="cboxes">
+  <div class="cbox">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>
+    <div>آدرس فروشگاه: فلکه اول تهران‌پارس جنب بانک صادرات پلاک 21</div>
+  </div>
+  <div class="cbox">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H9l-3 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM18 9h2a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-1v2l-3-2h-4"/></svg>
+    <div>شماره تماس: 77675645<br>آیدی تلگرام : @roseland<br>آیدی اینستاگرام: @roseland</div>
+  </div>
+  <div class="cbox">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+    <div>ایمیل: roseland@gmail.com</div>
+  </div>
+  <div class="cbox">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="m8.5 13 2.5 2.5 4.5-5M5 4 3 6M19 4l2 2"/></svg>
+    <div>ساعات کاری :<br>از شنبه تا پنجشنبه 9 صبح تا 9 شب<br>جمعه : 11 صبح تا 11 شب</div>
+  </div>
+</div>
+</section>
+
+<div class="cform-sec" id="cformSec">
+  <div class="cform-arch">
+    <h2>ما آماده ایم تا در انتخاب زیباترین گل ها و ثبت سفارش همراه شما باشیم</h2>
+    <form id="cform" novalidate>
+      <label class="crow"><span>نام:</span><input type="text" name="name" required></label>
+      <label class="crow"><span>شماره تماس:</span><input type="tel" name="phone" required></label>
+      <label class="crow"><span>موضوع:</span><input type="text" name="subject"></label>
+      <label class="crow crow-area"><span>پیام شما:</span><textarea name="msg" required></textarea></label>
+      <button type="submit" class="csend">ثبت</button>
+      <p id="cmsg" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<section class="faq">
+  <div class="faq-box">
+    <div class="faq-title">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H9l-3 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM18 9h2a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-1v2l-3-2h-4"/></svg>
+      سوالات متداول
+    </div>
+    <div id="faq"></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+/* عکس سمت راست بالای صفحه */
+document.getElementById("cheroImg").style.backgroundImage=`url("${BASE}گل ص تماس با ما عکس اول.jfif")`;
+document.getElementById("cformSec").style.backgroundImage=`url("${BASE}گل ص تماس با ما عکس دوم.jfif")`;
+document.getElementById("cform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const f=e.target;
+  const msg=document.getElementById("cmsg");
+  if(!f.name.value.trim()||!f.phone.value.trim()||!f.msg.value.trim()){
+    msg.textContent="لطفاً نام، شماره تماس و پیام را وارد کنید.";return;
+  }
+  msg.textContent="پیام شما ثبت شد (نمایشی؛ برای ارسال واقعی باید به سرور وصل شود).";
+  f.reset();
+});
+const FAQS = [
+  {q:"آیا ارسال فوری دارید؟",
+   a:"بله، در صورت ثبت سفارش در ساعات کاری و با توجه به محدوده مقصد، امکان ارسال فوری در همان روز فراهم است."},
+  {q:"آیا امکان ثبت پیام روی کارت وجود دارد؟",
+   a:"بله، در هنگام ثبت سفارش میتونید نوع کارت و پیام خودتون رو وارد کنید."},
+  {q:"آیا امکان پرداخت درب منزل وجود دارد؟",
+   a:"بله امکان پرداخت درب منزل وجود دارد."}
+];
+const faqBox = document.getElementById("faq");
+faqBox.innerHTML = FAQS.map((f,i)=>
+ `<div class="faq-item">
+    <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a${i}">
+      <span>${f.q}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+    </button>
+    <div class="faq-a" id="faq-a${i}" role="region"><div><p>${f.a}</p></div></div>
+  </div>`).join("");
+faqBox.addEventListener("click", e=>{
+  const btn = e.target.closest(".faq-q");
+  if(!btn) return;
+  const item = btn.parentElement;
+  const open = item.classList.toggle("open");
+  btn.setAttribute("aria-expanded", open);
+});
+
+</script>
+</body>
+</html>

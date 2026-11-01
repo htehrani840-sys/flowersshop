@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>محصول | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="pdp">
+  <div class="pdp-in">
+
+    <div class="pinfo">
+      <h1 id="pName"></h1>
+      <div class="pprice" id="pPrice"></div>
+
+      <div class="pgroup">
+        <h3>انتخاب رنگ گل ها</h3>
+        <div class="swatches" id="swatches" role="radiogroup" aria-label="رنگ گل ها"></div>
+      </div>
+
+      <div class="stars" aria-label="امتیاز ۵ از ۵">★★★★★</div>
+
+      <div class="qty" role="group" aria-label="تعداد">
+        <button type="button" id="qMinus" aria-label="کم کردن">-</button>
+        <span id="qVal">1</span>
+        <button type="button" id="qPlus" aria-label="زیاد کردن">+</button>
+      </div>
+
+      <label class="pdate">
+        <span>تاریخ ارسال</span>
+        <select id="pDate"></select>
+      </label>
+
+      <button type="button" class="pbtn" id="pAdd">افزودن به سبد خرید</button>
+      <p class="pmsg" id="pMsg" role="status"></p>
+    </div>
+
+    <div class="pgallery">
+      <div class="pmain" id="pMain" role="img"></div>
+      <div class="pthumbs" id="pThumbs" role="radiogroup" aria-label="انتخاب گلدان"></div>
+    </div>
+  </div>
+</section>
+
+<section class="similar">
+  <div class="similar-in">
+    <h2>محصولات مشابه</h2>
+    <div class="sgrid" id="sgrid"></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+/* محصولات: ترتیب لیست = شماره id در آدرس (اولی id=0). قیمت بدون ویرگول */
+const VASES = [
+  {img:"گلدان1.jpg", name:"گلدان شیشه ای مارینا", price:690000},
+  {img:"گلدان2.jpg", name:"گلدان مارینا",        price:890000},
+  {img:"گلدان3.jpg", name:"گلدان طلایی مارینا",  price:1000000}
+];
+const COLORS = [
+  {n:"زرد",     c:"#FDB93B"},
+  {n:"هلویی",   c:"#FFE0D2"},
+  {n:"سبز",     c:"#4C8A1E"},
+  {n:"قهوه‌ای", c:"#6B4A10"}
+];
+const DB = [
+  {name:"دسته گل لاریسا",     price:1850000, img:"MDAY26_Honey_OH_1144_RT_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل آلسترومریا", price:1450000, img:"MDAY26_Whimsy_OH_1129_RT_Web (1).avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل گیلدا",      price:1450000, img:"MOM24_Apricot_DL_OH_0518_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل لاریسا",     price:1850000, img:"MOM25_Flirtatious_OH_6729_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل آلسترومریا", price:1450000, img:"SUM24_MakeASplash_DL_OH_1110_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل گیلدا",      price:1450000, img:"SUM25_Buttercream_OH_641_Web (1).avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل لاریسا",     price:1850000, img:"VAL23_CandyCrush_DL_Over_115_641x641.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل آلسترومریا", price:1450000, img:"VAL24_StrawberrySunset_DL_OH_0486_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل گیلدا",      price:1450000, img:"VAL26_Bejeweled_OH_1479_RT_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل لاریسا",     price:1850000, img:"VAL26_Honeymoon_OH_1499_RT_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل آلسترومریا", price:1450000, img:"EVG24_ALWAYS_OH_0493_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل گیلدا",      price:1450000, img:"FALL25_PDP_WatermelonCandy_OH_516_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل لاریسا",     price:1850000, img:"EVG24_EXUBERANCE_OH_0547_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل آلسترومریا", price:1450000, img:"EVG24_PURPLE REIGN_OH_0523_Web.avif", colors:COLORS, vases:VASES},
+  {name:"دسته گل گیلدا",      price:1450000, img:"EVG24_SWEET LAVENDER_OH_0591_Web.avif", colors:COLORS, vases:VASES},
+];
+
+const id = parseInt(new URLSearchParams(location.search).get("id"));
+/* محصولی که از اسلایدر صفحه اصلی آمده */
+const qs = new URLSearchParams(location.search);
+const urlP = qs.get("img") ? {
+  id: "u-" + qs.get("img"),
+  name: qs.get("name") || "محصول",
+  price: Number(qs.get("price")) || 0,
+  img: qs.get("img"),
+  colors: COLORS,
+  vases: VASES
+} : null;
+const P = urlP || DB[id] || DB[0];
+const $ = s => document.getElementById(s);
+$("pName").textContent = P.name;
+$("pPrice").textContent = P.price.toLocaleString("fa-IR") + " تومان";
+$("pMain").style.backgroundImage = `url("${BASE+P.img}")`;
+$("pMain").setAttribute("aria-label", P.name);
+
+/* رنگ گل‌ها */
+let color = 0;
+$("swatches").innerHTML = P.colors.map((c,i)=>
+  `<button type="button" role="radio" aria-checked="${i===0}" aria-label="${c.n}" class="sw${i===0?" on":""}" data-i="${i}" style="background:${c.c}"></button>`).join("");
+$("swatches").addEventListener("click", e=>{
+  const b = e.target.closest(".sw"); if(!b) return;
+  color = +b.dataset.i;
+  [...$("swatches").children].forEach((x,i)=>{x.classList.toggle("on",i===color);x.setAttribute("aria-checked",i===color)});
+});
+
+/* گلدان‌ها: هر کدام یک محصول با دکمه‌ی خودش */
+const addedVases = new Set();
+$("pThumbs").innerHTML = P.vases.map((v,i)=>
+ `<div class="vcard">
+    <div class="vimg" style="background-image:url('${BASE+v.img}')" role="img" aria-label="${v.name}"></div>
+    <h4>${v.name}</h4>
+    <span class="vprice">${v.price.toLocaleString("fa-IR")} تومان</span>
+    <button type="button" class="vadd" data-i="${i}">افزودن به سبد خرید</button>
+  </div>`).join("");
+$("pThumbs").addEventListener("click", e=>{
+  const b = e.target.closest(".vadd"); if(!b) return;
+  const i = +b.dataset.i;
+  addToCart({id:"vase-"+i, name:P.vases[i].name, price:P.vases[i].price, img:P.vases[i].img, qty:1});
+  if(addedVases.has(i)){ addedVases.delete(i); b.textContent="افزودن به سبد خرید"; b.classList.remove("done"); }
+  else { addedVases.add(i); b.textContent="اضافه شد ✓"; b.classList.add("done"); }
+});
+
+/* تعداد */
+let qty = 1;
+const setQty = n => { qty = Math.min(20, Math.max(1, n)); $("qVal").textContent = qty.toLocaleString("fa-IR"); };
+$("qMinus").onclick = () => setQty(qty-1);
+$("qPlus").onclick  = () => setQty(qty+1);
+setQty(1);
+
+/* تاریخ ارسال: از امروز تا ۷ روز بعد */
+$("pDate").innerHTML = Array.from({length:8},(_,i)=>{
+  const d = new Date(); d.setDate(d.getDate()+i);
+  const t = d.toLocaleDateString("fa-IR",{weekday:"long",day:"numeric",month:"long"});
+  return `<option value="${i}">${i===0?"امروز - ":""}${t}</option>`;
+}).join("");
+
+/* افزودن به سبد */
+const pid = (P.id !== undefined) ? P.id : id;
+$("pAdd").onclick = () => {
+  addToCart({id:pid, name:P.name, price:P.price, img:P.img, qty, color:P.colors[color].n});
+  $("pMsg").innerHTML = `به سبد اضافه شد. <a href="cart.html" style="text-decoration:underline">مشاهده سبد خرید</a>`;
+};
+
+/* محصولات مشابه: چهار محصول دیگر */
+const LIST = (typeof PRODUCTS !== "undefined") ? PRODUCTS : DB;
+const similar = LIST.map((p,i)=>({p, key: p.id ?? i})).filter(x=>x.p !== P).slice(0,4);
+$("sgrid").innerHTML = similar.map(({p,key})=>
+ `<div class="pcard">
+    <a href="product.html?id=${key}" class="pcard-img" style="background-image:url('${BASE+p.img}')" aria-label="${p.name}"></a>
+    <h3>${p.name}</h3>
+    <span class="price">${p.price.toLocaleString("fa-IR")} تومان</span>
+    <button type="button">افزودن به سبد خرید</button>
+  </div>`).join("");
+</script>
+</body>
+</html>

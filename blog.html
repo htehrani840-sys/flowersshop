@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بلاگ | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="bhero" id="bhero">
+  <div class="barch">
+    <h1>زیبایی طبیعت، هدیه‌ای از عشق</h1>
+    <p>هر گل با عشق انتخاب شده تا احساسات شما را به زیباترین شکل ممکن به عزیزانتان منتقل کند.</p>
+    <a class="bbtn" href="index.html#cat-section">مشاهده انواع گل ها</a>
+  </div>
+</div>
+
+<section class="latest">
+  <h2>آخرین مقالات</h2>
+  <div class="agrid" id="agrid"></div>
+</section>
+<section class="vfeat">
+  <div class="vfeat-in">
+    <div class="vpic" id="vpic"></div>
+    <div class="vtext">
+      <h2>چرا گلدان شیشه ای برای گل آرایی محبوب است؟</h2>
+      <p>یکی از دلایل محبوبیت گلدان شیشه ای، شفافیت و قابلیت هماهنگی آن با انواع گل ها و رنگ ها است. این گلدان ها اجازه می دهند تا ساقه گل ها دیده شود و ترکیب بندی گل ها از پایین تا بالا جذابیت بصری پیدا کند. علاوه بر این، گلدان شیشه ای انعطاف پذیر است و می توان آن را در اندازه ها و شکل های مختلف تهیه کرد تا متناسب با فضاهای کوچک یا بزرگ، میز غذاخوری، میز قهوه یا کنار پنجره مورد استفاده قرار گیرد. این ویژگی باعث شده است که گلدان شیشه ای به انتخابی ایده آل برای علاقه مندان به گل آرایی تبدیل شود.</p>
+      <a class="vbtn" href="index.html#cat-section">مشاهده جدیدترین گل ها</a>
+    </div>
+  </div>
+</section>
+
+<section class="vpop">
+  <h2>محبوب ترین گلدان ها</h2>
+  <div class="vgrid" id="vgrid"></div>
+</section>
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+/* عکس بالای صفحه و عکس مقاله‌ها را اینجا بنویسید */
+const BLOG_HERO = "ص اول بلاگ.png";
+const ARTICLES = [
+  {img:"سفره عقد.png", title:"بهترین گل ها برای تزیین سفره عقد",
+   text:"انتخاب گل برای این مراسم، از «صرفاً زیبا بودن» فراتر می‌رود و به یک تصمیم دقیق تبدیل می‌شود؛ تصمیمی که باید با فصل، رنگ لباس عروس، سبک دکوراسیون تالار یا فضای باز، نورپردازی، عکاسی و حتی حساسیت‌های آلرژیک مهمان‌ها هماهنگ باشد.", href:"#"},
+  {img:"دسته گل عروس.png", title:"مراقبت از دسته گل عروس",
+   text:"گل‌ها موجوداتی زنده و حساس هستند و اگر به درستی از آن‌ها نگهداری نشود، خیلی سریع پژمرده می‌شوند. روش‌هایی مانند نگهداری در آب تازه، خشک کردن اصولی، فریز کردن یا حتی تبدیل دسته گل به یک اثر هنری از جمله تکنیک‌هایی هستند که می‌توانند باعث ماندگاری بیشتر دسته گل عروس شوند.", href:"#"},
+  {img:"عکس ص بلاگ عکس 1.2.jfif", title:"انتخاب باکس گل مناسب برای هدیه تولد",
+   text:"اخیراً خرید آنلاین گل و باکس‌های گل لوکس در میان ایرانی‌ها محبوب شده است. رزلند با ارائه مدل‌های متنوع از باکس گل‌های مدرن، کلاسیک، مینیمال و لاکچری، انتخاب را برای کاربران ساده‌تر کرده است. با این حال، تنوع زیاد گاهی باعث سردرگمی می‌شود و بسیاری از افراد نمی‌دانند برای یک عاشقانه چه نوع باکس گلی مناسب‌تر است.", href:"#"}
+];
+document.getElementById("bhero").style.backgroundImage=`url("${BASE+BLOG_HERO}")`;
+document.getElementById("agrid").innerHTML=ARTICLES.map(a=>
+ `<a class="acard" href="${a.href}"><div class="aimg" style="background-image:url('${BASE+a.img}')"></div>
+  <div class="abody"><h3>${a.title}</h3><p>${a.text}</p></div></a>`).join("");
+
+  const VASE_IMG = "گل در گلدان شیشه ای.png";
+const VASES = ["miniaks1.png","miniaks2.png","miniaks3.png","miniaks4.png"];
+document.getElementById("vpic").style.backgroundImage=`url("${BASE+VASE_IMG}")`;
+document.getElementById("vgrid").innerHTML=VASES.map(v=>
+ `<a class="vitem" href="#"><div class="vimg" style="background-image:url('${BASE+v}')"></div></a>`).join("");
+</script>
+</body>
+</html>

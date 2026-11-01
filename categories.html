@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دسته بندی | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="plist">
+  <div class="pgrid arch" id="pgrid"></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+//* همان عکس‌های صفحه محصولات (prod1.jpg تا prod15.jpg) برای همه‌ی دسته‌ها */
+/* ===== دسته گل (همان ۱۵ محصول خودتان) ===== */
+const bouquetItems = [
+  {img:"MDAY26_Honey_OH_1144_RT_Web.avif",              name:"دسته گل لاریسا",     price:1850000},
+  {img:"MDAY26_Whimsy_OH_1129_RT_Web (1).avif",         name:"دسته گل آلسترومریا", price:1450000},
+  {img:"MOM24_Apricot_DL_OH_0518_Web.avif",             name:"دسته گل گیلدا",      price:1450000},
+  {img:"MOM25_Flirtatious_OH_6729_Web.avif",            name:"دسته گل لاریسا",     price:1850000},
+  {img:"SUM24_MakeASplash_DL_OH_1110_Web.avif",         name:"دسته گل آلسترومریا", price:1450000},
+  {img:"SUM25_Buttercream_OH_641_Web (1).avif",         name:"دسته گل گیلدا",      price:1450000},
+  {img:"VAL23_CandyCrush_DL_Over_115_641x641.avif",     name:"دسته گل لاریسا",     price:1850000},
+  {img:"VAL24_StrawberrySunset_DL_OH_0486_Web.avif",    name:"دسته گل آلسترومریا", price:1450000},
+  {img:"VAL26_Bejeweled_OH_1479_RT_Web.avif",           name:"دسته گل گیلدا",      price:1450000},
+  {img:"VAL26_Honeymoon_OH_1499_RT_Web.avif",           name:"دسته گل لاریسا",     price:1850000},
+  {img:"EVG24_ALWAYS_OH_0493_Web.avif",                 name:"دسته گل آلسترومریا", price:1450000},
+  {img:"FALL25_PDP_WatermelonCandy_OH_516_Web.avif",    name:"دسته گل گیلدا",      price:1450000},
+  {img:"EVG24_EXUBERANCE_OH_0547_Web.avif",             name:"دسته گل لاریسا",     price:1850000},
+  {img:"EVG24_PURPLE REIGN_OH_0523_Web.avif",           name:"دسته گل آلسترومریا", price:1450000},
+  {img:"EVG24_SWEET LAVENDER_OH_0591_Web.avif",         name:"دسته گل گیلدا",      price:1450000}
+];
+
+/* ===== بقیه‌ی دسته‌ها: عکس و نام و قیمت هر کدام را اینجا بنویسید ===== */
+const boxItems = [
+  /* {img:"اسم-عکس-باکس.jpg", name:"باکس گل رز", price:1200000}, */
+];
+const wreathItems = [];
+const basketItems = [];
+const vaseItems   = [];
+const plantItems  = [];
+
+/* اگر لیست یک دسته هنوز خالی است، تا وقتی عکس‌هایش را بنویسید، محصولات دسته گل نشان داده می‌شود */
+const orFallback = list => list.length ? list : bouquetItems;
+
+const CATS = {
+  bouquet: {title:"دسته گل",      items: bouquetItems},
+  box:     {title:"باکس گل",      items: orFallback(boxItems)},
+  wreath:  {title:"تاج گل",       items: orFallback(wreathItems)},
+  basket:  {title:"سبد گل",       items: orFallback(basketItems)},
+  vase:    {title:"جام گل",       items: orFallback(vaseItems)},
+  plant:   {title:"گل آپارتمانی", items: orFallback(plantItems)}
+};
+
+const key = new URLSearchParams(location.search).get("cat");
+const cat = CATS[key] || CATS.bouquet;
+document.title = cat.title + " | رزلند";
+
+document.getElementById("pgrid").innerHTML = cat.items.map((p,i)=>
+ `<div class="pcard">
+    <a href="product.html?id=${i}" class="pcard-img" style="background-image:url('${BASE+p.img}')" aria-label="${p.name}"></a>
+    <h3>${p.name}</h3>
+    <span class="price">${p.price.toLocaleString("fa-IR")} تومان</span>
+    <button type="button">افزودن به سبد خرید</button>
+  </div>`).join("");
+</script>
+</body>
+</html>

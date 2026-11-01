@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اطلاعات ارسال | رزلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="co">
+  <div class="co-in">
+
+    <ol class="steps" aria-label="مراحل خرید">
+      <li class="done"><a href="cart.html">سبد خرید</a></li>
+      <li class="now" aria-current="step">اطلاعات ارسال</li>
+      <li>پرداخت</li>
+    </ol>
+    <h1>اطلاعات ارسال</h1>
+
+    <div id="coEmpty" class="cempty" hidden>
+      <p>سبد خرید شما خالی است.</p>
+      <a class="pbtn" href="monasebatha.html">ادامه خرید</a>
+    </div>
+
+    <div class="co-grid" id="coGrid" hidden>
+
+      <form class="coform" id="coForm" novalidate>
+        <fieldset>
+          <legend>مشخصات گیرنده</legend>
+          <label class="fld"><span>نام و نام خانوادگی گیرنده *</span>
+            <input id="rName" type="text" autocomplete="name"><em class="err" id="eName"></em></label>
+          <label class="fld"><span>شماره موبایل گیرنده *</span>
+            <input id="rPhone" type="tel" inputmode="numeric" placeholder="مثلا : 09121234567" autocomplete="tel"><em class="err" id="ePhone"></em></label>
+          <label class="fld"><span>نام فرستنده (اختیاری)</span>
+            <input id="sName" type="text" autocomplete="off"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>آدرس تحویل</legend>
+          <label class="fld"><span>شهر *</span>
+            <input id="rCity" type="text" value="تهران"><em class="err" id="eCity"></em></label>
+          <label class="fld"><span>آدرس کامل *</span>
+            <textarea id="rAddr" rows="3" placeholder="خیابان، کوچه، پلاک، واحد"></textarea><em class="err" id="eAddr"></em></label>
+          <label class="fld"><span>کد پستی (اختیاری)</span>
+            <input id="rPost" type="text" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم"><em class="err" id="ePost"></em></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>زمان تحویل</legend>
+          <div class="fld2">
+            <label class="fld"><span>تاریخ تحویل</span><select id="rDate"></select></label>
+            <label class="fld"><span>ساعت تحویل</span>
+              <select id="rTime">
+                <option>صبح (۹ تا ۱۲)</option>
+                <option>ظهر (۱۲ تا ۱۶)</option>
+                <option>عصر (۱۶ تا ۲۱)</option>
+              </select></label>
+          </div>
+          <label class="fld"><span>توضیحات برای پیک (اختیاری)</span>
+            <input id="rNote" type="text" placeholder="مثلا : لطفا قبل از رسیدن تماس بگیرید"></label>
+        </fieldset>
+
+        <div class="coactions">
+          <a class="tsim back" href="cart.html">بازگشت به سبد خرید</a>
+          <button type="submit" class="tpay">ادامه و پرداخت</button>
+        </div>
+        <p class="pmsg" id="coMsg" role="status"></p>
+      </form>
+
+      <aside class="cosum" aria-label="خلاصه سفارش">
+        <div class="ctotal-head">خلاصه سفارش</div>
+        <div class="cosum-body">
+          <div id="sumItems"></div>
+          <p class="trow"><span>کارت هدیه:</span> <b id="sumGift"></b></p>
+          <p class="trow"><span>حمل و نقل:</span> <b id="sumShip"></b></p>
+          <p class="trow"><span>مالیات بر ارزش افزوده:</span> <b id="sumTax"></b></p>
+          <p class="trow trow-final"><span>مبلغ قابل پرداخت:</span> <b id="sumTotal"></b></p>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="layout.js"></script>
+<script>
+const $ = s => document.getElementById(s);
+const money = n => n.toLocaleString("fa-IR") + " تومان";
+const fa2en = s => s.replace(/[۰-۹]/g, d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g, d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+const cart = getCart();
+let order = {};
+try{ order = JSON.parse(localStorage.getItem("roseland_order")) || {}; }catch(e){}
+
+if(!cart.length){ $("coEmpty").hidden = false; }
+else{
+  $("coGrid").hidden = false;
+
+  /* خلاصه سفارش */
+  $("sumItems").innerHTML = cart.map(x=>
+    `<div class="sitem">
+       <span class="simg" style="background-image:url('${BASE+x.img}')"></span>
+       <span class="sname">${x.name}${x.color?`<small>رنگ: ${x.color}</small>`:""}<small>تعداد: ${x.qty.toLocaleString("fa-IR")}</small></span>
+       <b>${money(x.price*x.qty)}</b>
+     </div>`).join("");
+  const items = cart.reduce((s,x)=>s+x.price*x.qty,0);
+  const giftP = order.gift ? order.gift.price : 0;
+  const base  = items + giftP;
+  const tax   = Math.round(base * (order.vat ?? 0.10));
+  const shipP = order.ship ? order.ship.price : 0;
+  $("sumGift").textContent  = order.gift ? `${order.gift.name} (${money(giftP)})` : "بدون کارت";
+  $("sumShip").textContent  = order.ship ? `${order.ship.name} (${shipP ? money(shipP) : "رایگان"})` : "در سبد خرید انتخاب کنید";
+  $("sumTax").textContent   = "+" + money(tax);
+  $("sumTotal").textContent = money(base + tax + shipP);
+}
+
+/* تاریخ تحویل: از امروز تا ۷ روز بعد */
+$("rDate").innerHTML = Array.from({length:8},(_,i)=>{
+  const d = new Date(); d.setDate(d.getDate()+i);
+  const t = d.toLocaleDateString("fa-IR",{weekday:"long",day:"numeric",month:"long"});
+  return `<option>${i===0?"امروز - ":""}${t}</option>`;
+}).join("");
+
+const usr = getUser();
+if(usr.name)    $("rName").value  = usr.name;
+if(usr.phone)   $("rPhone").value = usr.phone;
+if(usr.address) $("rAddr").value  = usr.address;
+if(usr.post)    $("rPost").value  = usr.post;
+
+/* اعتبارسنجی */
+const rules = [
+  ["rName",  "eName",  v=>v.length>=3,                       "نام و نام خانوادگی گیرنده را وارد کنید."],
+  ["rPhone", "ePhone", v=>/^09\d{9}$/.test(fa2en(v)),        "شماره موبایل معتبر نیست (مثال: 09121234567)."],
+  ["rCity",  "eCity",  v=>v.length>=2,                       "شهر را وارد کنید."],
+  ["rAddr",  "eAddr",  v=>v.length>=10,                      "آدرس کامل را وارد کنید."],
+  ["rPost",  "ePost",  v=>v===""||/^\d{10}$/.test(fa2en(v)), "کد پستی باید ۱۰ رقم باشد."]
+];
+
+$("coForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  let firstBad = null;
+  rules.forEach(([f,err,ok,msg])=>{
+    const el = $(f), v = el.value.trim(), good = ok(v);
+    $(err).textContent = good ? "" : msg;
+    el.setAttribute("aria-invalid", !good);
+    el.classList.toggle("bad", !good);
+    if(!good && !firstBad) firstBad = el;
+  });
+  if(firstBad){ firstBad.focus(); $("coMsg").textContent = ""; return; }
+
+  const info = {
+    name: $("rName").value.trim(), phone: fa2en($("rPhone").value.trim()),
+    sender: $("sName").value.trim(), city: $("rCity").value.trim(),
+    address: $("rAddr").value.trim(), post: fa2en($("rPost").value.trim()),
+    date: $("rDate").value, time: $("rTime").value, note: $("rNote").value.trim()
+  };
+  try{ localStorage.setItem("roseland_ship", JSON.stringify(info)); }catch(err){}
+
+  /* اینجا بعداً به درگاه پرداخت یا صفحه‌ی بعد وصل می‌شود */
+  $("coMsg").textContent = "اطلاعات ارسال ثبت شد. در مرحله‌ی بعد به درگاه پرداخت منتقل می‌شوید (نمایشی).";
+});
+
+/* پاک شدن پیام خطا هنگام تایپ */
+rules.forEach(([f,err])=>$(f).addEventListener("input",()=>{ $(err).textContent=""; $(f).classList.remove("bad"); }));
+</script>
+</body>
+</html>
